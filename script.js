@@ -23,9 +23,8 @@ const PENGUMUMAN = [
   },
 ];
 
-const KEGIATAN_DEFAULT = [
+const KEGIATAN = [
   {
-    id: "k1",
     tanggal: "7 September 2026",
     jam: "07.00 WIB",
     judul: "Kerja Bakti Lingkungan",
@@ -33,7 +32,6 @@ const KEGIATAN_DEFAULT = [
     kategori: "Lingkungan",
   },
   {
-    id: "k2",
     tanggal: "14 September 2026",
     jam: "19.30 WIB",
     judul: "Rapat Warga Bulanan",
@@ -41,7 +39,6 @@ const KEGIATAN_DEFAULT = [
     kategori: "Rapat",
   },
   {
-    id: "k3",
     tanggal: "21 September 2026",
     jam: "16.00 WIB",
     judul: "Posyandu dan Pemeriksaan Kesehatan",
@@ -77,22 +74,9 @@ const LAPORAN_WARGA_DEFAULT = [
   },
 ];
 
-/* ========== STORAGE ========== */
-const STORAGE_KEGIATAN = "rt002_kegiatan";
+/* ========== STORAGE LAPORAN ========== */
 const STORAGE_LAPORAN_P = "rt002_laporan_pengurus";
 const STORAGE_LAPORAN_W = "rt002_laporan_warga";
-
-function loadKegiatan() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEGIATAN);
-    if (raw) return JSON.parse(raw);
-  } catch (_) {}
-  return structuredClone(KEGIATAN_DEFAULT);
-}
-
-function saveKegiatan(list) {
-  localStorage.setItem(STORAGE_KEGIATAN, JSON.stringify(list));
-}
 
 function loadLaporan(key, fallback) {
   try {
@@ -106,7 +90,6 @@ function saveLaporan(key, list) {
   localStorage.setItem(key, JSON.stringify(list));
 }
 
-let KEGIATAN = loadKegiatan();
 let LAPORAN_PENGURUS = loadLaporan(STORAGE_LAPORAN_P, LAPORAN_PENGURUS_DEFAULT);
 let LAPORAN_WARGA = loadLaporan(STORAGE_LAPORAN_W, LAPORAN_WARGA_DEFAULT);
 
@@ -187,8 +170,8 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
 
-/* ========== KEGIATAN ========== */
-const FILTERS = ["Semua", "Lingkungan", "Rapat", "Kesehatan", "Sosial", "Lainnya"];
+/* ========== KEGIATAN (tampil saja) ========== */
+const FILTERS = ["Semua", "Lingkungan", "Rapat", "Kesehatan"];
 let current = "Semua";
 
 function renderFilters() {
@@ -214,7 +197,7 @@ function renderKegiatan() {
     return;
   }
   kegiatanEl.innerHTML = items.map((k) => `
-      <article class="event" data-id="${k.id}">
+      <article class="event">
         <div class="meta">
           <strong>${k.tanggal}</strong>
           <span class="chip">${k.jam}</span>
@@ -222,85 +205,8 @@ function renderKegiatan() {
         </div>
         <h3>${k.judul}</h3>
         <p>${k.isi}</p>
-        <div class="event-actions">
-          <button type="button" class="btn btn-ghost" data-edit="${k.id}" style="min-height:32px;font-size:12px;padding:0 12px">Edit</button>
-          <button type="button" class="btn btn-danger" data-del="${k.id}">Hapus</button>
-        </div>
       </article>`).join("");
-
-  kegiatanEl.querySelectorAll("[data-edit]").forEach((btn) => {
-    btn.addEventListener("click", () => startEdit(btn.dataset.edit));
-  });
-  kegiatanEl.querySelectorAll("[data-del]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (confirm("Hapus kegiatan ini?")) {
-        KEGIATAN = KEGIATAN.filter((k) => k.id !== btn.dataset.del);
-        saveKegiatan(KEGIATAN);
-        renderKegiatan();
-      }
-    });
-  });
 }
-
-const form = document.getElementById("kegiatan-form");
-const editId = document.getElementById("edit-id");
-const btnCancel = document.getElementById("btn-cancel");
-const btnReset = document.getElementById("btn-reset-default");
-
-function startEdit(id) {
-  const item = KEGIATAN.find((k) => k.id === id);
-  if (!item) return;
-  editId.value = id;
-  document.getElementById("f-tanggal").value = item.tanggal;
-  document.getElementById("f-jam").value = item.jam;
-  document.getElementById("f-judul").value = item.judul;
-  document.getElementById("f-kategori").value = item.kategori;
-  document.getElementById("f-isi").value = item.isi;
-  document.getElementById("btn-save").textContent = "Update kegiatan";
-  btnCancel.hidden = false;
-  form.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-function resetForm() {
-  editId.value = "";
-  form.reset();
-  document.getElementById("btn-save").textContent = "Simpan kegiatan";
-  btnCancel.hidden = true;
-}
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const data = {
-    id: editId.value || "k" + Date.now(),
-    tanggal: document.getElementById("f-tanggal").value.trim(),
-    jam: document.getElementById("f-jam").value.trim(),
-    judul: document.getElementById("f-judul").value.trim(),
-    kategori: document.getElementById("f-kategori").value,
-    isi: document.getElementById("f-isi").value.trim(),
-  };
-  if (editId.value) {
-    const idx = KEGIATAN.findIndex((k) => k.id === editId.value);
-    if (idx >= 0) KEGIATAN[idx] = data;
-  } else {
-    KEGIATAN.push(data);
-  }
-  saveKegiatan(KEGIATAN);
-  resetForm();
-  renderFilters();
-  renderKegiatan();
-});
-
-btnCancel.addEventListener("click", resetForm);
-
-btnReset.addEventListener("click", () => {
-  if (confirm("Kembalikan data kegiatan ke default awal?")) {
-    KEGIATAN = structuredClone(KEGIATAN_DEFAULT);
-    saveKegiatan(KEGIATAN);
-    resetForm();
-    renderFilters();
-    renderKegiatan();
-  }
-});
 
 renderFilters();
 renderKegiatan();
@@ -374,5 +280,5 @@ document.getElementById("laporan-form").addEventListener("submit", (e) => {
     renderLaporan(LAPORAN_WARGA, "laporan-warga-list");
   }
   e.target.reset();
-  document.querySelector(`.laporan-tabs .tab[data-tab="${jenis}"]`).click();
+  document.querySelector('.laporan-tabs .tab[data-tab="' + jenis + '"]').click();
 });
