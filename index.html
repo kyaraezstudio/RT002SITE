@@ -30,6 +30,24 @@
         <a href="#kontak">Kontak</a>
       </nav>
       <div class="header-actions">
+        <div class="jakarta-logo header-logo" title="Lambang DKI Jakarta — Jaya Raya" aria-label="Lambang DKI Jakarta">
+          <svg viewBox="0 0 80 90" width="36" height="40" role="img">
+            <defs>
+              <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e8c76a"/>
+                <stop offset="100%" stop-color="#a6843d"/>
+              </linearGradient>
+            </defs>
+            <path d="M40 4 L72 16 L72 48 C72 68 40 86 40 86 C40 86 8 68 8 48 L8 16 Z" fill="#1e4a8c" stroke="url(#goldG)" stroke-width="3"/>
+            <rect x="36" y="28" width="8" height="36" rx="1" fill="#f5f5f5"/>
+            <rect x="32" y="62" width="16" height="6" rx="1" fill="#f5f5f5"/>
+            <path d="M40 18 L44 28 L36 28 Z" fill="#c0392b"/>
+            <path d="M22 40 Q28 32 26 48 Q24 56 22 52" fill="none" stroke="#f1c40f" stroke-width="2"/>
+            <path d="M58 40 Q52 32 54 48 Q56 56 58 52" fill="none" stroke="#27ae60" stroke-width="2"/>
+            <rect x="16" y="10" width="48" height="10" rx="2" fill="#f5f5f5"/>
+            <text x="40" y="18" text-anchor="middle" font-size="7" font-family="Arial,sans-serif" font-weight="700" fill="#c0392b">JAYA RAYA</text>
+          </svg>
+        </div>
         <button class="icon-btn" id="theme-btn" type="button" aria-label="Ganti tema">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
@@ -71,29 +89,10 @@
         </div>
         <aside class="panel">
           <div class="panel-head">
-            <div class="logo-row">
-              <div class="jakarta-logo" title="Lambang DKI Jakarta — Jaya Raya" aria-label="Lambang DKI Jakarta">
-                <svg viewBox="0 0 80 90" width="56" height="64" role="img">
-                  <defs>
-                    <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#e8c76a"/>
-                      <stop offset="100%" stop-color="#a6843d"/>
-                    </linearGradient>
-                  </defs>
-                  <path d="M40 4 L72 16 L72 48 C72 68 40 86 40 86 C40 86 8 68 8 48 L8 16 Z" fill="#1e4a8c" stroke="url(#goldG)" stroke-width="3"/>
-                  <rect x="36" y="28" width="8" height="36" rx="1" fill="#f5f5f5"/>
-                  <rect x="32" y="62" width="16" height="6" rx="1" fill="#f5f5f5"/>
-                  <path d="M40 18 L44 28 L36 28 Z" fill="#c0392b"/>
-                  <path d="M22 40 Q28 32 26 48 Q24 56 22 52" fill="none" stroke="#f1c40f" stroke-width="2"/>
-                  <path d="M58 40 Q52 32 54 48 Q56 56 58 52" fill="none" stroke="#27ae60" stroke-width="2"/>
-                  <rect x="16" y="10" width="48" height="10" rx="2" fill="#f5f5f5"/>
-                  <text x="40" y="18" text-anchor="middle" font-size="7" font-family="Arial,sans-serif" font-weight="700" fill="#c0392b">JAYA RAYA</text>
-                </svg>
-              </div>
-              <div>
-                <strong class="display">RT 002</strong>
-                <p class="muted" style="margin:0">RW 05 · Kramat Jati</p>
-              </div>
+            <span class="badge-02">02</span>
+            <div>
+              <strong class="display">RT 002</strong>
+              <p class="muted" style="margin:0">RW 05 · Kramat Jati</p>
             </div>
           </div>
           <div class="person"><div><small>Ketua RT</small><strong>Sumarsono</strong></div></div>
@@ -120,49 +119,9 @@
         <div class="section-head">
           <p class="kicker">Agenda</p>
           <h2>Kegiatan mendatang</h2>
-          <p>Data kegiatan bisa dikustom langsung lewat panel admin di bawah (tersimpan di browser).</p>
         </div>
         <div class="filters" id="filters"></div>
         <div class="timeline" id="kegiatan-list"></div>
-
-        <div class="custom-panel" id="custom-panel">
-          <div class="custom-head">
-            <h3>Kelola Data Kegiatan</h3>
-            <p class="muted">Tambah / ubah / hapus kegiatan. Data tersimpan di localStorage browser ini.</p>
-          </div>
-          <form id="kegiatan-form" class="kegiatan-form">
-            <input type="hidden" id="edit-id" value="" />
-            <div class="form-grid">
-              <label>Tanggal
-                <input type="text" id="f-tanggal" placeholder="contoh: 7 September 2026" required />
-              </label>
-              <label>Jam
-                <input type="text" id="f-jam" placeholder="07.00 WIB" required />
-              </label>
-              <label>Judul
-                <input type="text" id="f-judul" placeholder="Nama kegiatan" required />
-              </label>
-              <label>Kategori
-                <select id="f-kategori">
-                  <option>Lingkungan</option>
-                  <option>Rapat</option>
-                  <option>Kesehatan</option>
-                  <option>Sosial</option>
-                  <option>Lainnya</option>
-                </select>
-              </label>
-            </div>
-            <label>Deskripsi
-              <textarea id="f-isi" rows="2" placeholder="Ringkas isi kegiatan" required></textarea>
-            </label>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary" id="btn-save">Simpan kegiatan</button>
-              <button type="button" class="btn btn-ghost" id="btn-cancel" hidden>Batal edit</button>
-              <button type="button" class="btn btn-ghost" id="btn-reset-default">Kembalikan data awal</button>
-            </div>
-          </form>
-          <p class="muted tip">Tips: data hanya tersimpan di perangkat/browser yang sama. Untuk update permanen di GitHub Pages, edit file <code>script.js</code>.</p>
-        </div>
       </div>
     </section>
 
@@ -268,20 +227,8 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <div class="footer-brand">
-        <div class="jakarta-logo small" aria-hidden="true">
-          <svg viewBox="0 0 80 90" width="36" height="40">
-            <path d="M40 4 L72 16 L72 48 C72 68 40 86 40 86 C40 86 8 68 8 48 L8 16 Z" fill="#1e4a8c" stroke="#c4a15a" stroke-width="3"/>
-            <rect x="36" y="28" width="8" height="36" rx="1" fill="#f5f5f5"/>
-            <rect x="32" y="62" width="16" height="6" rx="1" fill="#f5f5f5"/>
-            <path d="M40 18 L44 28 L36 28 Z" fill="#c0392b"/>
-            <rect x="16" y="10" width="48" height="10" rx="2" fill="#f5f5f5"/>
-            <text x="40" y="18" text-anchor="middle" font-size="7" font-family="Arial,sans-serif" font-weight="700" fill="#c0392b">JAYA RAYA</text>
-          </svg>
-        </div>
-        <div>
-          <strong class="display">RT 002 RW 05</strong>
-          <p class="muted" style="margin:0;font-size:12px">Kel. Kramat Jati · Kec. Kramat Jati · Jakarta Timur</p>
-        </div>
+        <strong class="display">RT 002 RW 05</strong>
+        <p class="muted" style="margin:0;font-size:12px">Kel. Kramat Jati · Kec. Kramat Jati · Jakarta Timur</p>
       </div>
       <span class="muted">2026 · Untuk warga</span>
       <span class="muted">HTML · CSS · JS · GitHub Pages</span>
